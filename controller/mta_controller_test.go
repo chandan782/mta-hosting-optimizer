@@ -32,3 +32,25 @@ func TestRegisterRoutes(t *testing.T) {
 	expectedResult := []string{"mta-prod-1", "mta-prod-2", "mta-prod-3"}
 	assert.ElementsMatch(t, expectedResult, response)
 }
+
+func TestRegisterRoutesDefaultThreshold(t *testing.T) {
+	// Set the value of THRESHOLD environment variable
+	_ = os.Setenv("THRESHOLD", "abc")
+
+	router := gin.New()
+	RegisterRoutes(router)
+
+	req, err := http.NewRequest("GET", "/getHostnames", nil)
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var response []string
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &response))
+
+	expectedResult := []string{"mta-prod-1", "mta-prod-3"}
+	assert.ElementsMatch(t, expectedResult, response)
+}
