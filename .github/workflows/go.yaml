@@ -25,7 +25,7 @@ jobs:
         run: go test ./...
 
       - name: Build
-        run: go build -o mta-hosting-optimizer ./github.com/chandan782/mta-hosting-optimizer.git
+        run: go build -o mta-hosting-optimizer
         working-directory: ${{ github.workspace }}
 
   deploy:
