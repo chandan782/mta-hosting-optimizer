@@ -20,11 +20,11 @@ func (s *MtaService) GetHostnamesWithLessOrEqualActiveIPs(threshold int) []strin
 		if ipConfig.Active {
 			hostnamesCount[ipConfig.Hostname]++
 		} else if !ipConfig.Active {
-			val, ok := hostnamesCount[ipConfig.Hostname]
+			count, ok := hostnamesCount[ipConfig.Hostname]
 			if !ok {
 				hostnamesCount[ipConfig.Hostname] = 0
 			}
-			hostnamesCount[ipConfig.Hostname] = val
+			hostnamesCount[ipConfig.Hostname] = count
 		}
 	}
 
